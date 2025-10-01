@@ -1,0 +1,114 @@
+expression manufacturer =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\RicardoM\OneDrive - Macaw\Archive\Power BI Trainings\New set-up\VanArsdel Data\USSales\bi_dimensions.xlsx"), null, true),
+		    manufacturer_Sheet = Source{[Item="manufacturer",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(manufacturer_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Column1", type text}, {"Column2", type any}, {"Column3", type any}, {"Column4", type any}, {"Column5", type any}, {"Column6", type any}, {"Column7", type any}, {"Column8", type any}, {"Column9", type any}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}}),
+		    #"Transposed Table" = Table.Transpose(#"Changed Type"),
+		    #"Promoted Headers1" = Table.PromoteHeaders(#"Transposed Table", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers1",{{"ManufacturerID", Int64.Type}, {"Manufacturer", type text}, {"Logo", type text}, {"Column4", type any}, {"Column5", type any}, {"List of Suppliers and Manufacturers ", type any}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type1",{"ManufacturerID", "Manufacturer", "Logo"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 26d86ea0-8f77-42bd-948f-de85f9e971c2
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression AustraliaSales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_AustraliaSales = Source{[Schema="dbo",Item="AustraliaSales"]}[Data]
+		in
+		    dbo_AustraliaSales
+	lineageTag: e050a283-9cd4-4376-8772-f7482ed22827
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression CanadaSales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_CanadaSales = Source{[Schema="dbo",Item="CanadaSales"]}[Data]
+		in
+		    dbo_CanadaSales
+	lineageTag: f586fca7-44a7-4b4e-94b7-8a93ca8e0a62
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression us_sales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_us_sales = Source{[Schema="dbo",Item="us_sales"]}[Data],
+		    #"Added Custom" = Table.AddColumn(dbo_us_sales, "Country", each "USA"),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Country", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 0c3c9d6e-a530-4bd5-9920-bf736e621f25
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression GermanySales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_GermanySales = Source{[Schema="dbo",Item="GermanySales"]}[Data]
+		in
+		    dbo_GermanySales
+	lineageTag: 9086c837-90bf-45d4-af53-d35f4f06c976
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression JapanSales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_JapanSales = Source{[Schema="dbo",Item="JapanSales"]}[Data]
+		in
+		    dbo_JapanSales
+	lineageTag: adfb500a-8528-45e7-8157-6fc0a7472120
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression NigeriaSales =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_NigeriaSales = Source{[Schema="dbo",Item="NigeriaSales"]}[Data]
+		in
+		    dbo_NigeriaSales
+	lineageTag: cb241da7-bff1-41b6-a335-844251124bbb
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression product =
+		let
+		    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+		    dbo_product = Source{[Schema="dbo",Item="product"]}[Data],
+		    #"Split Column by Delimiter" = Table.SplitColumn(dbo_product, "Product", Splitter.SplitTextByDelimiter("|", QuoteStyle.Csv), {"Product", "Type"}),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"ManufacturerID", Int64.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 8891bb26-aa27-4c28-83b0-e9fcf2a93f26
+	queryGroup: 'Raw Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

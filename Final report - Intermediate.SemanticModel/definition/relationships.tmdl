@@ -1,0 +1,12 @@
+relationship 11c6d2fd-4140-4b02-9019-0d3cc2460d10
+	fromColumn: Sales.ProductID
+	toColumn: 'Product details'.ProductID
+
+relationship 425321f3-30b5-4a3a-b385-7bd6f6d5567d
+	fromColumn: Sales.Date
+	toColumn: Date.Date
+
+relationship AutoDetected_f8b433b3-fae5-43d6-afd7-7053e0373896
+	fromColumn: Sales.ZipCountry
+	toColumn: geo.ZipCountry
+

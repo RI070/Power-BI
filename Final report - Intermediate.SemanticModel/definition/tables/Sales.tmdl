@@ -1,0 +1,84 @@
+table Sales
+	lineageTag: a72b99a5-5148-4f7e-a247-a5159104e520
+
+	column ProductID
+		dataType: double
+		lineageTag: 635688f9-89df-4a04-adcc-c360be8802ec
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1a30bd54-c552-45cb-b5dc-385c57f29b0c
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Zip
+		dataType: string
+		lineageTag: 27661fd1-f0f8-41aa-9859-81eedb95a4cb
+		summarizeBy: none
+		sourceColumn: Zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units
+		dataType: double
+		lineageTag: ae30b844-6106-4010-b461-a9a9dc587dd9
+		summarizeBy: sum
+		sourceColumn: Units
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Revenue
+		dataType: double
+		lineageTag: 4571a9ff-ac92-40ad-ae7d-567053008588
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Country
+		dataType: string
+		lineageTag: f6e983f8-1cd1-405e-8d4d-4c22e212a3c1
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZipCountry
+		dataType: string
+		lineageTag: 36302e97-a98d-4400-8c14-8f0923a92b40
+		summarizeBy: none
+		sourceColumn: ZipCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		queryGroup: Fact
+		source =
+				let
+				    Source = Table.Combine({us_sales, AustraliaSales, CanadaSales, GermanySales, NigeriaSales, JapanSales}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Date", type date}, {"Zip", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "ZipCountry", each [Zip]&[Country]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Added Custom",{{"ZipCountry", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

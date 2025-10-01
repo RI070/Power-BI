@@ -1,0 +1,11 @@
+role TestOLS
+
+	tablePermission geo
+		metadataPermission: none
+
+	tablePermission Sales
+
+		columnPermission ZipCountry = none
+
+	annotation PBI_Id = aafa2af6c7b5422a9100d18ff2037951
+

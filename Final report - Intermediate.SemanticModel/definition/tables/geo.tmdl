@@ -1,0 +1,75 @@
+table geo
+	lineageTag: 12a777ea-bfe1-4991-aaee-b8b973acc7b5
+
+	column Zip
+		dataType: string
+		lineageTag: 31f95d10-63c5-4bb7-8f31-6972be3e96d3
+		summarizeBy: none
+		sourceColumn: Zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: fa07e2a5-a37a-4395-9af0-6a24b4636b0a
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 9faa1508-0819-49bc-b9b8-f5ded4b63374
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 44b5b282-2e00-4299-ab79-fe90711e0f61
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 20491a0c-b66e-430d-bdf0-45c7a523f43e
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 3d960593-345a-4746-9e5f-3fe6d8a1e69f
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZipCountry
+		dataType: string
+		lineageTag: 5dbe0509-0cb3-454b-a995-dc32e605f871
+		summarizeBy: none
+		sourceColumn: ZipCountry
+
+		annotation SummarizationSetBy = Automatic
+
+	partition geo = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Sql.Database("macawpowerbitraining.database.windows.net", "VanArsdel"),
+				    dbo_geo = Source{[Schema="dbo",Item="geo"]}[Data],
+				    #"Added Custom" = Table.AddColumn(dbo_geo, "ZipCountry", each [Zip]&[Country]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"ZipCountry", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

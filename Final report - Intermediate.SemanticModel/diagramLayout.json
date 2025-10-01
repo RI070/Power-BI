@@ -1,0 +1,99 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 189.31838304705917,
+            "y": 904.18114499465264
+          },
+          "nodeIndex": "geo",
+          "nodeLineageTag": "12a777ea-bfe1-4991-aaee-b8b973acc7b5",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 770,
+            "y": 302.75289645743658
+          },
+          "nodeIndex": "Product details",
+          "nodeLineageTag": "64fc5ef0-d8f6-4d65-b5a5-711b4eb1a40b",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 465.391227489284,
+            "y": 642.6365378053124
+          },
+          "nodeIndex": "Sales",
+          "nodeLineageTag": "a72b99a5-5148-4f7e-a247-a5159104e520",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 183.88856960392241,
+            "y": 298.35521362338585
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "4f9e972c-e83d-41f2-991b-aaf9f2f9942b",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 870.11143039607759,
+            "y": 528.66586214307
+          },
+          "nodeIndex": "Formulas",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 970.22286079215519,
+            "y": 438.36470356009534
+          },
+          "nodeIndex": "Parameter",
+          "nodeLineageTag": "4246bc2f-40fc-4f15-bd59-11cdf40373d3",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 70.955543900968763,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

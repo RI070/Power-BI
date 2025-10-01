@@ -1,0 +1,43 @@
+table Formulas
+	lineageTag: 0b3a3144-eda4-441c-9994-93e812f6fc5c
+
+	measure '€ Total Sales' = SUM ( 'Sales'[Revenue] )
+		lineageTag: 675311b8-67ad-4f93-a4e3-7a7412595e3b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '€ Total Sales YTD' = TOTALYTD( [€ Total Sales], 'Date'[Date] )
+		lineageTag: 34d68aa5-cc7b-49a4-b9ca-ee6ca9190bbe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '€ Total Sales YTD LY' = ```
+			CALCULATE( [€ Total Sales YTD], SAMEPERIODLASTYEAR('Date'[Date]) ) 
+			```
+		lineageTag: 0882b0ac-b74e-47e6-abc2-338033a86f9c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '€ Target YTD' = [€ Total Sales YTD LY] * 1.05
+		lineageTag: 9e25b089-4339-4015-a53a-3354d16b9b66
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Difference' = DIVIDE( ([€ Total Sales YTD]-[€ Total Sales YTD LY]), [€ Total Sales YTD LY] )
+		formatString: 0%;-0%;0%
+		lineageTag: 48479667-dec7-4b17-afd8-7fd92e13e410
+
+	partition Formulas = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

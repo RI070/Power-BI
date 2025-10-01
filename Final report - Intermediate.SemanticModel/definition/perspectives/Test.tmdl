@@ -1,0 +1,74 @@
+perspective Test
+
+	perspectiveTable Sales
+
+		perspectiveColumn ProductID
+
+		perspectiveColumn Date
+
+		perspectiveColumn Zip
+
+		perspectiveColumn Units
+
+		perspectiveColumn Revenue
+
+		perspectiveColumn Country
+
+		perspectiveColumn ZipCountry
+
+	perspectiveTable 'Product details'
+
+		perspectiveColumn ProductID
+
+		perspectiveColumn Product
+
+		perspectiveColumn Segment
+
+		perspectiveColumn Category
+
+		perspectiveColumn ManufacturerID
+
+		perspectiveColumn Price
+
+		perspectiveColumn Manufacturer
+
+		perspectiveColumn Logo
+
+		perspectiveHierarchy 'Product Hierarchy'
+
+	perspectiveTable Date
+
+		perspectiveColumn Date
+
+		perspectiveColumn Year
+
+		perspectiveColumn Month
+
+		perspectiveColumn Week
+
+		perspectiveColumn 'Month Name'
+
+		perspectiveColumn 'End of Month'
+
+		perspectiveColumn 'Day of Week'
+
+	perspectiveTable Formulas
+
+		perspectiveMeasure '€ Total Sales'
+
+		perspectiveMeasure '€ Total Sales YTD'
+
+		perspectiveMeasure '€ Total Sales YTD LY'
+
+		perspectiveMeasure '€ Target YTD'
+
+		perspectiveMeasure '% Difference'
+
+	perspectiveTable Parameter
+
+		perspectiveColumn Parameter
+
+		perspectiveColumn 'Parameter Fields'
+
+		perspectiveColumn 'Parameter Order'
+

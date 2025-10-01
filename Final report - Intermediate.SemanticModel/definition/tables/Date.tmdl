@@ -1,0 +1,95 @@
+table Date
+	lineageTag: 4f9e972c-e83d-41f2-991b-aaf9f2f9942b
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fc178ff5-b635-45fb-9543-1bd1a6cc7846
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7abf6935-0eed-4480-8627-535bf4a069d5
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 831c0d7c-48cb-4855-9734-5a2b66e3911f
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: eea1c0e7-4882-40d7-9143-f3c84a10ad7f
+		summarizeBy: none
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 3a374772-9c8d-4c6a-a38d-5cb39c8e6ce6
+		summarizeBy: none
+		sourceColumn: Month Name
+		sortByColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'End of Month'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4f24e0e3-52a7-40ab-8a38-c62952a6ef9e
+		summarizeBy: none
+		sourceColumn: End of Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Day of Week'
+		dataType: int64
+		formatString: 0
+		lineageTag: da68eb4c-be0f-4398-9b99-a89594e0adcc
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source ={Number.From(#date(2020,1,1))..Number.From(#date(2022,12,31))},
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Column1", type date}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Date"}}),
+				    #"Insert Year" = Table.AddColumn(#"Renamed Columns", "Year", each Date.Year([Date])),
+				    #"Insert Month" = Table.AddColumn(#"Insert Year", "Month", each Date.Month([Date])),
+				    #"Insert Week" = Table.AddColumn(#"Insert Month", "Week", each Date.WeekOfYear([Date])),
+				    #"Inserted Month Name" = Table.AddColumn(#"Insert Week", "Month Name", each Date.MonthName([Date]), type text),
+				    #"Inserted End of Month" = Table.AddColumn(#"Inserted Month Name", "End of Month", each Date.EndOfMonth([Date]), type date),
+				    #"Inserted Day of Week" = Table.AddColumn(#"Inserted End of Month", "Day of Week", each Date.DayOfWeek([Date]), Int64.Type),
+				    #"Set Datatypes Result set" = Table.TransformColumnTypes(#"Inserted Day of Week",{{"Year", Int64.Type}, {"Month", Int64.Type}, {"Week", Int64.Type}})
+				in
+				    #"Set Datatypes Result set"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

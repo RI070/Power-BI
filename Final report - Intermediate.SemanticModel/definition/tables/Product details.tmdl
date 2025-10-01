@@ -1,0 +1,98 @@
+table 'Product details'
+	lineageTag: 64fc5ef0-d8f6-4d65-b5a5-711b4eb1a40b
+
+	column ProductID
+		dataType: string
+		lineageTag: 6c6c612a-7aba-4ab0-8467-aa98f3bb4774
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: 8b692ac1-dfb5-4114-bb65-9ba636363ae9
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 371a5bf6-f12a-4533-aeae-334a1e34366f
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: f7944fdc-9b06-42e1-878c-b844cec14a63
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column ManufacturerID
+		dataType: int64
+		formatString: 0
+		lineageTag: c96c8e3c-db46-46e8-9519-0a7a0e7c3a00
+		summarizeBy: none
+		sourceColumn: ManufacturerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: string
+		lineageTag: 25953e76-12c7-486a-9112-1cd708d36a8f
+		summarizeBy: none
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manufacturer
+		dataType: string
+		lineageTag: c738d886-6852-4c2c-b428-4642f0f18fb4
+		summarizeBy: none
+		sourceColumn: Manufacturer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Logo
+		dataType: string
+		lineageTag: 0a87e91c-622f-483f-a3dd-9a2c14a8c8ac
+		summarizeBy: none
+		sourceColumn: Logo
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Product Hierarchy'
+		lineageTag: e47bb7f3-da43-4c83-b09b-1ef5d89e1941
+
+		level Category
+			lineageTag: de6dfd8e-e4a0-4974-97a3-f5cb040d0064
+			column: Category
+
+		level Segment
+			lineageTag: 694d0fa8-2848-451a-941a-6d1124c95df5
+			column: Segment
+
+		level Product
+			lineageTag: cbd86112-b27d-4919-850b-1c88ee774c4a
+			column: Product
+
+	partition 'Product details' = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Source = Table.NestedJoin(product, {"ManufacturerID"}, manufacturer, {"ManufacturerID"}, "manufacturer", JoinKind.LeftOuter),
+				    #"Expanded manufacturer" = Table.ExpandTableColumn(Source, "manufacturer", {"Manufacturer", "Logo"}, {"manufacturer.Manufacturer", "manufacturer.Logo"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Expanded manufacturer",{{"manufacturer.Manufacturer", "Manufacturer"}, {"manufacturer.Logo", "Logo"}, {"Type", "Segment"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

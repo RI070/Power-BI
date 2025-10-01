@@ -1,0 +1,7 @@
+role AllianderOLS
+
+	tablePermission geo
+		metadataPermission: none
+
+	annotation PBI_Id = d544895fead6433abab3c7b9caee8ced
+
