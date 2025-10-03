@@ -1,0 +1,7 @@
+role Germany
+	modelPermission: read
+
+	tablePermission geo = [Country] == "Germany"
+
+	annotation PBI_Id = c4f4abc60fd647c28535e712797aba67
+
